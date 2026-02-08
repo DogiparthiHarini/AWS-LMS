@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Educator Dashboard | LMS Portal</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px;
+      position: relative;
+    }
+
+    /* Logout Button - Fixed top-left */
+    .logout-button {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .logout-button:hover {
+      background: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 80px auto 0;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.1rem;
+    }
+
+    main {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    main h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    main p {
+      color: #555;
+      margin-bottom: 35px;
+      font-size: 1.1rem;
+    }
+
+    .button {
+      display: inline-block;
+      margin: 12px 10px;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      background: #667eea;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .button:hover {
+      background: #5a6de0;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+  </style>
+</head>
+<body>
+  <script src="auth-check.js"></script>
+
+  <!-- Logout Button (Top Left) -->
+  <a
+    href="https://us-east-1dddy9g5oo.auth.us-east-1.amazoncognito.com/logout?client_id=1umutsnskbkrdl23mk6jun0kdv&logout_uri=https%3A%2F%2Fmain.dijffme8w1boe.amplifyapp.com%2Findex-4.html"
+    class="logout-button"
+  >
+    Log out
+  </a>
+
+  <div class="container">
+    <header>
+      <h1>Educator Dashboard</h1>
+      <p>Manage courses, monitor learners, and conduct live sessions</p>
+    </header>
+
+    <main>
+      <h2>Welcome 👋</h2>
+      <p>Access your teaching tools below to get started</p>
+
+      <div class="button-container">
+        <a href="courses.html" class="button">📚 Courses</a>
+        <a href="student-list.html" class="button">👥 Student List</a>
+        <a href="classes.html" class="button">🎓 Classes</a>
+        <a href="live-sessions.html" class="button">🎥 Create Session</a>
+        <a href="quiz.html" class="button">📝 Quiz</a>
+        <!-- <a href="quizz.html" class="back-button">← Back</a> -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Store auth code once and clear on logout -->
+  <script>
+    // Store auth code once
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+
+    if (code && !localStorage.getItem("auth_code")) {
+      console.log("Storing auth code:", code);
+      localStorage.setItem("auth_code", code);
+    }
+
+    // Clear auth_code on logout
+    const logoutButton = document.querySelector(".logout-button");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", () => {
+        localStorage.removeItem("auth_code");
+        console.log("Auth code cleared on logout");
+        // The link will still proceed to Cognito logout
+      });
+    }
+  </script>
+</body>
+</html>
+
+
